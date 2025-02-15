@@ -65,3 +65,9 @@ exports.loginUser = async (req, res, next) => {
         user,
     })
 };
+
+
+
+exports.getUserProfile = async (req,res,next) =>{
+    res.status(200).json(req.user);
+}

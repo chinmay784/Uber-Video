@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import axios from "axios"
+import ContextUser from '../context/ContextUser'
 
 const UserSignUp = () => {
   const [email, setEmail] = useState('')
@@ -9,18 +11,30 @@ const UserSignUp = () => {
   const [userData, setUserData] = useState({})
 
   const navigate = useNavigate();
+  const {user,setUser} = useContext(ContextUser)
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({
-      username:{
-        firstname:firstName,
-        lastname:lastName,
+
+    const newUser = {
+      fullname: {
+        firstname: firstName,
+        lastname: lastName,
       },
-      email:email,
-      password:password
-    })
-   
+      email: email,
+      password: password
+
+    }
+
+    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`,newUser);
+
+    if(res.status === 201){
+      const data = res.data;
+      setUser(data.user)
+
+      navigate('/home')
+    }
+
     setEmail("");
     setPassword("");
     setFirstName("");
@@ -90,7 +104,7 @@ const UserSignUp = () => {
             >Create account</button>
 
           </form>
-          <p className='text-center'>Already have a account? <Link to='/login' className='text-blue-600'>Login here</Link></p>
+          <p className='text-center'>Already have a account? <Link to='/login' className='text-blue-600'>Create Account</Link></p>
         </div>
         <div>
           <p className='text-[10px] leading-tight'>This site is protected by reCAPTCHA and the <span className='underline'>Google Privacy

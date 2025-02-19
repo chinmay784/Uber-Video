@@ -7,7 +7,7 @@ const connectionDB = require("./db/db");
 const userRoutes = require("./routes/userRoute");
 const captainRoutes = require('./routes/captainRoutes')
 const cookieParser = require("cookie-parser")
-connectionDB();
+
 
 app.use(cors());
 app.use(express.json());

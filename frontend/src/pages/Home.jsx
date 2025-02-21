@@ -4,6 +4,8 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPannel from '../components/LocationSearchPannel';
+import VehiclePannel from '../components/VehiclePannel';
+import ConformedRide from '../components/ConformedRide';
 
 const Home = () => {
   const [pickup, setPickUp] = useState('');
@@ -11,29 +13,45 @@ const Home = () => {
   const [pannelOpen, setPannelOpen] = useState(false);
   const panelRef = useRef(null);
   const panelClose = useRef(null)
+  const vehiclePannelRef = useRef(null)
+  const [vehiclePannel, setVehiclePannel] = useState(false);
+  const [confirmRidePannel,setConfirmRidePannel] = useState(false);
+  const confirmRidePannelRef = useRef(null)
   const submtiHandler = async (e) => {
     e.preventDefault();
 
   }
 
   useGSAP(function () {
+    if (vehiclePannel) {
+      gsap.to(vehiclePannelRef.current, {
+        transform: 'translateY(0)'
+      })
+    } else {
+      gsap.to(vehiclePannelRef.current, {
+        transform: 'translateY(100%)'
+      })
+    }
+  }, [vehiclePannel])
+
+  useGSAP(function () {
     if (pannelOpen) {
       gsap.to(panelRef.current, {
         height: '70%',
-        opacity:1,
-        padding:20
+        opacity: 1,
+        padding: 20
       })
-      gsap.to(panelClose.current,{
-        opacity:1
+      gsap.to(panelClose.current, {
+        opacity: 1
       })
     } else {
       gsap.to(panelRef.current, {
         height: '0%',
-        opacity:0,
-        padding:0
+        opacity: 0,
+        padding: 0
       })
-      gsap.to(panelClose.current,{
-        opacity:0
+      gsap.to(panelClose.current, {
+        opacity: 0
       })
     }
   }, [pannelOpen])
@@ -57,44 +75,18 @@ const Home = () => {
           </form>
         </div>
         <div ref={panelRef} className='  bg-white h-0'>
-          <LocationSearchPannel />
+          <LocationSearchPannel setVehiclePannel={setVehiclePannel} setPannelOpen={setPannelOpen} />
         </div>
       </div>
 
 
-      <div className=' fixed z-10 bottom-0 px-3 py-8 translate-y-full bg-white w-full'>
-        <div className=' w-full border-2 border-white active:border-black mb-2 p-5   rounded-xl flex items-center justify-between '>
-          <img className=' h-15 p-2' src='./download (1).jpeg' />
-          <div className='  w-1/2'>
-            <h4 className=' font-medium text-base'>UberGo<span><i className="ri-user-fill"></i>4</span>
-             </h4>
-             <h5 className=' font-medium text-sm'>2 min away</h5>
-             <p className=' font-normal text-xs text-gray-600'>Affordable compact rides</p>
-          </div>
-          <h2 className=' text-lg font-semibold pr-1'>193.0</h2>
-        </div>
+      <div ref={vehiclePannelRef} className=' fixed z-10 bottom-0 px-3 py-10 translate-y-full bg-white w-full'>
+          <VehiclePannel setVehiclePannel={setVehiclePannel} />
+      </div>
 
-        <div className=' w-full border-2 mb-2 p-5  border-white active:border-black rounded-xl flex items-center justify-between '>
-          <img className=' h-15 p-2' src='./Bike.jpeg' />
-          <div className='  w-1/2'>
-            <h4 className=' font-medium text-base'>Moto<span><i className="ri-user-fill"></i>1</span>
-             </h4>
-             <h5 className=' font-medium text-sm'>3 min away</h5>
-             <p className=' font-normal text-xs text-gray-600'>Affordable motor rides</p>
-          </div>
-          <h2 className=' text-lg font-semibold pr-1'>65.20</h2>
-        </div>
 
-        <div className=' w-full border-2 mb-2 p-5  border-white active:border-black rounded-xl flex items-center justify-between '>
-          <img className=' h-15 p-2' src='./Auto.jpeg' />
-          <div className='  w-1/2'>
-            <h4 className=' font-medium text-base'>Auto<span><i className="ri-user-fill"></i>3</span>
-             </h4>
-             <h5 className=' font-medium text-sm'>3 min away</h5>
-             <p className=' font-normal text-xs text-gray-600'>Affordable auto rides</p>
-          </div>
-          <h2 className=' text-lg font-semibold pr-1'>105.20</h2>
-        </div>
+      <div ref={confirmRidePannelRef} className=' fixed z-10 bottom-0 px-3 py-10 translate-y-full bg-white w-full'>
+          <ConformedRide  />
       </div>
 
     </div>

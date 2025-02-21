@@ -7,7 +7,7 @@ const UserLogin = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const {user, setUser } = useContext(UserdataContext)
+    const { user, setUser } = useContext(UserdataContext)
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -21,7 +21,7 @@ const UserLogin = () => {
         if (res.status === 200) {
             const data = res.data;
             setUser(data.user);
-            localStorage.setItem('token',data.token)
+            localStorage.setItem('token', data.token)
             navigate('/home')
         }
         setEmail("");

@@ -6,6 +6,7 @@ import 'remixicon/fonts/remixicon.css'
 import LocationSearchPannel from '../components/LocationSearchPannel';
 import VehiclePannel from '../components/VehiclePannel';
 import ConformedRide from '../components/ConformedRide';
+import WaitForDriver from '../components/WaitForDriver';
 
 const Home = () => {
   const [pickup, setPickUp] = useState('');
@@ -32,7 +33,19 @@ const Home = () => {
         transform: 'translateY(100%)'
       })
     }
-  }, [vehiclePannel])
+  }, [vehiclePannel]);
+
+  useGSAP(function () {
+    if (confirmRidePannel) {
+      gsap.to(confirmRidePannelRef.current, {
+        transform: 'translateY(0)'
+      })
+    } else {
+      gsap.to(confirmRidePannelRef.current, {
+        transform: 'translateY(100%)'
+      })
+    }
+  }, [confirmRidePannel]);
 
   useGSAP(function () {
     if (pannelOpen) {
@@ -81,12 +94,16 @@ const Home = () => {
 
 
       <div ref={vehiclePannelRef} className=' fixed z-10 bottom-0 px-3 py-10 translate-y-full bg-white w-full'>
-          <VehiclePannel setVehiclePannel={setVehiclePannel} />
+          <VehiclePannel setConfirmRidePannel={setConfirmRidePannel} setVehiclePannel={setVehiclePannel} />
       </div>
 
 
       <div ref={confirmRidePannelRef} className=' fixed z-10 bottom-0 px-3 py-10 translate-y-full bg-white w-full'>
-          <ConformedRide  />
+          <ConformedRide setVehiclePannel={setVehiclePannel} />
+      </div>
+
+      <div className=' fixed z-10 bottom-0 px-3 py-10 translate-y-full bg-white w-full'>
+          <WaitForDriver  />
       </div>
 
     </div>
